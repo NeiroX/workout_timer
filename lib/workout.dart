@@ -17,7 +17,21 @@ class _WorkoutPageState extends State<WorkoutPage> {
     setState(() {
       setCounter++;
       setNameList.add('Set $setCounter');
-      setList.add(new Sets(name: 'Set $setCounter', id: setCounter - 1),
+      final item = setCounter;
+      setList.add(
+        Dismissible(
+          key: Key(item.toString()),
+          onDismissed: (direction) {
+            setState(() {
+              setList.removeAt(setCounter - 1);
+            });
+
+            Scaffold.of(context)
+                .showSnackBar(SnackBar(content: Text("Set $item dismissed")));
+          },
+          background: Container(color: Colors.red),
+          child: Sets(name: 'Set $setCounter', id: setCounter - 1),
+        ),
       );
     });
   }
@@ -28,8 +42,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
       setNameList.removeAt(id - 1);
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,25 +70,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Widget IconButtons(int id) {
 //  const double iconSize = 10.0;
@@ -119,4 +112,3 @@ class _WorkoutPageState extends State<WorkoutPage> {
 //    ],
 //  );
 //}
-
